@@ -14,6 +14,7 @@
 
                 <fieldset>
                     <p>Hasil: {{ hasil }}</p>
+                    <p>Hasil currency: {{formatCurrency(hasil)}}</p>
                 </fieldset>
             </div>
         </div>
@@ -27,4 +28,8 @@
     const bilangan2 = ref(0)
 
     const hasil = computed(() => bilangan1.value * bilangan2.value)
+    const formatCurrency = () => {
+        val.toLocaleString("id-ID", { style: "currency", currency: "IDR" })
+    }
+
 </script>
