@@ -1,9 +1,12 @@
 <template>
     <div class="main-content">
         <div class="fluid-container">
-            <TheWelcome />
+            <div class="section-welcome">
+                <TheWelcome />
+                <br/>
+                <CanvaAnimation/>
+            </div>
         </div>
-        {{tutor.nama.slice(2,5) }}
         <div class="fluid-container">
             <div class="section-services" id="services">
                 <div class="table-wrapper">
@@ -30,12 +33,27 @@
                 </div>
             </div>
         </div>
+        <div class="fluid-container">
+            <div class="section-services">
+                <div class="grid-course">
+                    <CourseCard
+                        v-for="(item, i) in courses"
+                        :key="i"
+                        :course="item"
+                    />
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
     import TheWelcome from '@/components/TheWelcome.vue'
+    import CanvaAnimation from '@/components/CanvaAnimation.vue'
     import { useRouter } from 'vue-router'
+    import CourseCard from '@/components/CourseCard.vue'
+    import { getCourses } from '@/services/courseServices'
+    import { ref, onMounted } from 'vue'
 
     const router = useRouter()
 
@@ -132,4 +150,16 @@
     const goToDetail = (nim) => {
         router.push({ name: 'detail', params: { nim } })
     }
+    const courses = ref([])
+
+    onMounted(async () => {
+        courses.value = await getCourses()
+    })
 </script>
+<style>
+    .grid-course {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+</style>
